@@ -1,0 +1,8 @@
+# IntelliJ 설정 파일
+.idea/
+
+# Docker 볼륨/데이터
+docker-test-db/store/
+
+# 기타
+*.sock

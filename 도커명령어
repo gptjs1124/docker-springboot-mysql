@@ -1,0 +1,16 @@
+
+# 도커 컴포즈 있는 폴더에서 도커 컴포즈 실행
+docker-compose up -d
+
+# 도커를 다운 시키고 다시 하는 거면 --build를 붙이는게 좋음
+docker-compose up -d --build
+
+# 웹브라우저에서 http://localhost:8080/user 검색하면 조회됨.
+
+# DB에서 실행하려면,
+    Server Host - localhost
+    Database - metadb
+    Username - root
+    Password - root1234
+
+

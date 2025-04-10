@@ -1,0 +1,32 @@
+version: '3'
+services:
+    db:
+       build: # build를 할건데, context안에 있는 dockerfile을 빌드할꺼다.
+         context: ./docker-test-db # context를 잡아주고 dockerfile의 위치를 알려준다. (경로설정을 위해)
+         dockerfile: Dockerfile
+       ports:
+        - 3306:3306
+       volumes:
+        - ./docker-test-db/store:/var/lib/mysql
+       networks:
+         - network #동일 네트워크 사용
+    server:
+      build:
+        context: ./docker-test-server
+        dockerfile: Dockerfile
+      restart: always
+      ports:
+        - 8080:8080
+      depends_on:
+        - db #sever랑 DB랑 연결할때 DB먼저 무조건 생성하고 나서 server가 생성되게 작업
+      environment: #환경변수 세팅
+        SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/metadb?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+          #db라고 되어 있는건 위에 servics아래 있는 db를 뜻하는 것. 그래서 경로가 application-prod.yml에 있는 DB에 위의 주소를 바로 넣으면 못알아 들음.
+        SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
+        SPRING_DATASOURCE_USERNAME: root
+        SPRING_DATASOURCE_PASSWORD: root1234
+      networks:
+        - network #동일 네트워크 사용
+
+networks:
+  network:  #동일 네트워크 사용
